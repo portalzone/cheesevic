@@ -19,6 +19,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "@inertiajs/inertia-vue3": "^0.6.0",
         "@ocrv/vue-tailwind-pagination": "^0.0.4",
         "sweetalert2": "^11.10.5"
     }

@@ -5,8 +5,8 @@
             <div class=" bg-white border-b border-gray-200">
               <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                   <div class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
-                 <h1 class="text-2xl p-4 text-white uppercase bg-slate-900 dark:bg-gray-700 dark:text-gray-400">
-                Sport
+              <h1 class="text-2xl p-4 text-white uppercase bg-slate-900 dark:bg-gray-700 dark:text-gray-400">
+                Religion
               </h1>
                 <div v-if="posts.length === 0">Loading...</div>
                   <div v-else>
@@ -35,12 +35,12 @@ export default {
     };
   },
   mounted() {
-    axios.get('/sport-posts')
+    axios.get('/religion-posts')
       .then(response => {
         this.posts = response.data;
       })
       .catch(error => {
-        console.error('Error fetching sport posts: ', error);
+        console.error('Error fetching religion posts: ', error);
       });
   }
 }

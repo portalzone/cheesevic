@@ -36,7 +36,20 @@ Route::middleware([
     })->name('dashboard');
     Route::resource('categories', CategoryController::class);
     Route::resource('posts', PostController::class);
-    Route::get('/latest', [PostController::class, 'latest']);
     
 });
 
+Route::get('/latest-posts', [PostController::class, 'latestPosts']);
+Route::get('/trending-posts', [PostController::class, 'trending']);
+Route::get('/entertainment-posts', [PostController::class, 'entertainment']);
+Route::get('/sport-posts', [PostController::class, 'sport']);
+Route::get('/religion-posts', [PostController::class, 'religion']);
+Route::get('/politics-posts', [PostController::class, 'politics']);
+Route::get('/education-posts', [PostController::class, 'education']);
+Route::get('/finance-posts', [PostController::class, 'finance']);
+Route::get('/about', function () {
+    return Inertia::render('About');
+})->name('about');
+Route::get('/contact', function () {
+    return Inertia::render('Contact');
+})->name('contact');

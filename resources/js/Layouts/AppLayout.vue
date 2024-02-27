@@ -33,8 +33,8 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+        <div class="min-h-screen bg-slate-700">
+            <nav class="bg-slate-900 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -60,6 +60,16 @@ const logout = () => {
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"  v-if="$page.props.auth.user.power === 9">
                                 <NavLink :href="route('posts.index')" :active="route().current('posts.index')">
                                     Posts
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"  v-if="$page.props.auth.user.power === 9">
+                                <NavLink :href="route('about')" :active="route().current('about')">
+                                    About Us
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"  v-if="$page.props.auth.user.power === 9">
+                                <NavLink :href="route('contact')" :active="route().current('contact')">
+                                    Contact Us
                                 </NavLink>
                             </div>
                         </div>
@@ -215,6 +225,16 @@ const logout = () => {
                             Posts
                         </ResponsiveNavLink>
                     </div>
+                    <div class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('about')" :active="route().current('about')">
+                            About Us
+                        </ResponsiveNavLink>
+                    </div>
+                    <div class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('contact')" :active="route().current('contact')">
+                            Contact Us
+                        </ResponsiveNavLink>
+                    </div>
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
@@ -294,7 +314,7 @@ const logout = () => {
             </nav>
 
             <!-- Page Heading -->
-            <header v-if="$slots.header" class="bg-white shadow">
+            <header v-if="$slots.header" class="bg-slate-800 shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>

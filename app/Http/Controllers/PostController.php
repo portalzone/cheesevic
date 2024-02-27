@@ -24,16 +24,48 @@ class PostController extends Controller
         $categories = Category::all();
         return Inertia::render('Posts/Index', ['posts' => $posts, 'categories' =>$categories]);
     }
+public function latestPosts()
+    {
+        $posts = Post::latest()->take(5)->get(); // Example: Get the 5 latest posts
+        return response()->json($posts);
+    }
+public function trending()
+    {
+        $posts = Post::where('trending', '1')->latest()->take(10)->get(); // Example: Get the 10 trending posts
+        return response()->json($posts);
+    }
+    public function entertainment()
+    {
+        $posts = Post::where('category_id', '1')->latest()->take(5)->get();
+        return response()->json($posts);
+    }
+    public function sport()
+    {
+        $posts = Post::where('category_id', '2')->latest()->take(5)->get();
+        return response()->json($posts);
+    }
+    public function religion()
+    {
+        $posts = Post::where('category_id', '3')->latest()->take(5)->get();
+        return response()->json($posts);
+    }
+    public function politics()
+    {
+        $posts = Post::where('category_id', '4')->latest()->take(5)->get();
+        return response()->json($posts);
+    }
+    public function education()
+    {
+        $posts = Post::where('category_id', '5')->latest()->take(5)->get();
+        return response()->json($posts);
+    }
+    public function finance()
+    {
+        $posts = Post::where('category_id', '6')->latest()->take(5)->get();
+        return response()->json($posts);
+    }
+    
 
-    public function latest()
-{
-    $latest = Post::select('posts.id', 'posts.name', 'body', 'user_id', 'category_id', 'categories.name as category')
-    ->join('categories', 'categories.id', '=', 'posts.category_id')
-    ->with('user')
-    ->paginate(10);
-    $categories = Category::all();
-    return Inertia::render('Latest', ['latest' => $latest, 'categories' =>$categories]);
-}
 
     /**
      * Show the form for creating a new resource.
