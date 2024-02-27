@@ -20,6 +20,9 @@ const modal = ref(false);
 const title = ref('');
 const operation = ref(1);
 const id = ref('');
+const imageData = ref(null);
+
+
 
 const props = defineProps({
     posts: {type: Object},
@@ -27,11 +30,13 @@ const props = defineProps({
     
 });
 
-const  form = useForm({
+const form = useForm({
     name: '',
     body: '',
-    category_id: 0
+    category_id: 0,
+    image: '',
 });
+
 const formPage = useForm({});
 const onPageClick = (event) => {
     formPage.get(route('posts.index',{page:event}));
@@ -61,10 +66,12 @@ const closeModal = () => {
 const save = () => {
     if (operation.value == 1) {
         form.post(route('posts.store'), {
+            forceFormData: true,
             onSuccess: () => {ok('Post created')}
         });
     } else {
         form.put(route('posts.update', id.value), {
+            forceFormData: true,
             onSuccess: () => {ok('Post updated')}
         });
     }
@@ -105,6 +112,7 @@ const deletePost = (id,name) => {
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
+                        
             <div class="bg-white grid v-screen place-items-center">
                 <div class="mt-3 mb-3 flex">
                     <primary-button @click="$event => openModal(1)">
@@ -175,8 +183,10 @@ const deletePost = (id,name) => {
             </div>
         </div>
         <Modal :show="modal" @close="closeModal">
-            <h2 class="p-3 text-lg font.medium text-hray-900">{{ title }}</h2>
-        
+            <h2 class="p-3 text-lg font.medium text-gray-900">{{ title }}</h2>
+            <form @submit.prevent="save" enctype="multipart/form-data">
+      
+
             <div class="p-3 ">
                 <InputLabel for="name" value="Title:"></InputLabel>
                 <TextInput id="name" ref="nameInput"
@@ -185,6 +195,12 @@ const deletePost = (id,name) => {
                 placeholder="Title"></TextInput>
                 <InputError :message="form.errors.name" class="mt-2"></InputError>
             </div>
+            <div class="p-3">
+                <InputLabel for="image" value="Upload Image:"></InputLabel>
+                <input id="image" type="file" name="image" @input="form.image = $event.target.files[0]"  class="mt-1 block w-3/4"/>
+                <InputError :message="form.errors.image" class="mt-2"></InputError>
+            </div>
+
             <div class="p-3">
                 <InputLabel for="category_id" value="Category:"></InputLabel>
                 <SelectInput id="category_id" :options="categories"
@@ -212,6 +228,8 @@ const deletePost = (id,name) => {
                     <i class="fa-solid fa-save"></i>Cancel
                 </SecondaryButton>
             </div>
+        </form>
+            
         </Modal>
     </AppLayout>
 </template>
