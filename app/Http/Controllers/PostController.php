@@ -217,7 +217,7 @@ public function trending()
             'body' => 'required|min:50',
             'category_id' => 'required|numeric',
             // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image' => ['required', 'image', 'max:5500'],
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:5048',
         ]);
 
         if ($request->file('image')) {
