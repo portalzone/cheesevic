@@ -197,7 +197,7 @@ const deletePost = (id, name) => {
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ (i+1) }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ po.name }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">Published by: {{ po.user.name }}</td>
-                        <td class="w-16 h-16"><img :src="'/storage/' + po.image" alt="Post Image" v-if="po.image"></td>
+                        <td  v-if="po.image" class="w-16 h-16"><img :src="po.image" alt="Post Image"></td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ po.body }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ po.category }}</td>
                         <td class="px-2 py-2">
@@ -241,9 +241,8 @@ const deletePost = (id, name) => {
                 placeholder="Title"></TextInput>
                 <InputError :message="form.errors.name" class="mt-2"></InputError>
             </div>
-            <div v-if="form.image" class="p-3 w-16 h-16"> 
-                <img :src="'/storage/' + form.image" alt="Post Image" v-if="form.image">
-
+            <div v-if="form.image" class="p-3 w-16 h-16"> <!-- Change from "image" to "form.image" -->
+                <img :src="form.image" alt="Post Image"> <!-- Change from "image" to "form.image" -->
             </div>
             <div class="p-3">
                 <InputLabel for="image" value="Upload Image:"></InputLabel>

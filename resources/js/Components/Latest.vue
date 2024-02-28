@@ -11,10 +11,14 @@
                 <div v-if="posts.length === 0">Loading...</div>
                   <div v-else>
                     <div v-for="post in posts" :key="post.id">
-                      <h2  class="text-lg font-medium px-5">{{ post.name }}</h2>
-                        <!-- You can add more fields here as needed -->
-                      <p class="px-5">{{ post.body }}</p>
+                      <div class="grid grid-cols-1 md:grid-cols-9 gap-6 lg:gap-8">
+                        <div class="col-span-1 w-16 h-16"><img :src="'/storage/' + post.image" alt="Post Image" v-if="post.image"></div>
+                        <div class="col-span-8 ">
+                          <h2  class="text-lg font-medium px-5">{{ post.name }}</h2>
+                          <p class="px-5">{{ post.body }}</p>
+                        </div>                      
                       <hr>
+                      </div>
                     </div>
                   </div>
                 </div>
