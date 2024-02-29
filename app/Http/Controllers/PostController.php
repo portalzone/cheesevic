@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -212,15 +213,23 @@ public function trending()
 
     public function update(Request $request, Post $post)
     {
+        // dd(Request::all());
+        // dd($request->file('image'));
         $validated = $request->validate([
             'name' => 'required|min:10|max:150',
             'body' => 'required|min:50',
             'category_id' => 'required|numeric',
             // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:5048',
+            
         ]);
-
         if ($request->file('image')) {
+            $validated2 = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                
+            ]); 
+        };
+        if ($request->file('image')) {
+
             // Delete the previous image if it exists
             if ($post->image) {
                 // Assuming 'public' is the disk where images are stored

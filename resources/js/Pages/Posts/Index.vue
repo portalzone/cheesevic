@@ -29,9 +29,8 @@ const props = defineProps({
     categories: { type: Object }  
 });
 
-
 const form = useForm({
-    _method: "PUT",
+    _method: null,
     name: '',
     body: '',
     category_id: 0,
@@ -88,7 +87,38 @@ const closeModal = () => {
     form.clearErrors();
 }
 
+// const save = () => {
+//   const formData = new FormData();
+//   formData.append('_token', csrfToken); // Add CSRF token
+//   formData.append('name', form.name);
+//   formData.append('body', form.body);
+//   formData.append('category_id', form.category_id);
+//   if (form.image) {
+//     formData.append('image', form.image);
+//   }
+
+//   // Dynamically set _method based on operation
+//   formData.append('_method', operation.value === 1 ? 'POST' : 'PUT');
+
+//   // Use the correct route for create and update
+//   const route = operation.value === 1 ? route('posts.store') : route('posts.update', id.value);
+//   const successtype = operation.value === 1 ? 'Post created' : 'Post updated';
+
+//   form.post(route, {
+//     preserveScroll: true,
+//     onSuccess: () => { ok(successtype); },
+//     onError: (errors) => { console.error('Error updating database:', errors); },
+//   });
+// }
+
 const save = () => {
+    
+    if (operation.value == 1) {
+    form._method= 'POST';
+    } else {
+    form._method= 'PUT';
+    }
+    console.log(form);
     const formData = new FormData();
     formData.append('_token', csrfToken); // Add CSRF token
     formData.append('name', form.name);
@@ -102,14 +132,13 @@ const save = () => {
         form.post(route('posts.store'), {
             preserveScroll: true,
             onSuccess: () => { ok('Post created'); },
+            onError: (errors) => { console.error('Error updating post:', errors); },
         });
     } else {
         form.post(route('posts.update', id.value), {
             preserveState: true,
             onSuccess: () => { ok('Post updated'); },
-            onError: () => {
-                console.error('Error updating post');
-            },
+            onError: (errors) => { console.error('Error updating post:', errors); },
         });
     }
 }
