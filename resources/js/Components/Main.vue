@@ -12,32 +12,32 @@ import Business from '@/Components/Business.vue';
 
 <template>
     <div class="">
-        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">
+        <div class="p-2 my-6 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">
             <Latest/>
             
         </div>
-        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+        <div class="p-2 my-6 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
             <Sport/>
         </div>
-        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+        <div class="p-2 my-6 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
             <Politics/>
         </div>
-        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+        <div class="p-2 my-6 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
             <Education/>
         </div>
-        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+        <div class="p-2 my-6 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
             <Religion/>
         </div>
-        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+        <div class="p-2 my-6 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
             <Finance/>
         </div>
-        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+        <div class="p-2 my-6 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
             <Entertainment/>
         </div>
-        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+        <div class="p-2 my-6 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
             <Business/>
         </div>
-        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+        <div class="p-2 my-6 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
             <World/>
         </div>
 

@@ -49,6 +49,7 @@ Route::get('/education-posts', [PostController::class, 'education']);
 Route::get('/business-posts', [PostController::class, 'business']);
 Route::get('/finance-posts', [PostController::class, 'finance']);
 Route::get('/world-posts', [PostController::class, 'world']);
+Route::get('/view/{postId}', [PostController::class, 'show']);
 Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');

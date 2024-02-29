@@ -34,14 +34,14 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-slate-700">
-            <div class="nav-left hidden sm:block"> <!-- Hide on small screens (hidden) and display on screens larger than small (sm:block) -->
-    <div class="bg-slate-900 pt-12 border-r border-gray-100 h-full flex flex-col justify-between">
+            <div class="hidden md:block fixed top-0 left-0 h-screen bg-slate-900 border-r border-gray-100 flex-col justify-between z-50">
+    <div class="pt-12">
         <div class="pt-4 gap-6 lg:gap-8">
-            <div class="sm:flex sm:flex-col"> <!-- Change flex direction to column for small screens -->
-                <NavLink v-if="$page.props.auth.user.power === 9" :href="route('donation')" :active="route().current('donation')" class="text-white mb-2">Donation</NavLink> <!-- Add margin bottom to create space between links -->
-                <NavLink v-if="$page.props.auth.user.power === 9" :href="route('scholarship')" :active="route().current('scholarship')" class="text-white mb-2">Scholarship</NavLink>
-                <NavLink v-if="$page.props.auth.user.power === 9" :href="route('suggestion')" :active="route().current('suggestion')" class="text-white mb-2">Suggestion</NavLink>
-                <NavLink v-if="$page.props.auth.user.power === 9" :href="route('publish')" :active="route().current('publish')" class="text-white mb-2">Publish</NavLink>
+            <div class="md:flex md:flex-col items-center">
+                <NavLink :href="route('donation')" :active="route().current('donation')" class="text-white mb-2">Donation</NavLink>
+                <NavLink :href="route('scholarship')" :active="route().current('scholarship')" class="text-white mb-2">Scholarship</NavLink>
+                <NavLink :href="route('suggestion')" :active="route().current('suggestion')" class="text-white mb-2">Suggestion</NavLink>
+                <NavLink :href="route('publish')" :active="route().current('publish')" class="text-white mb-2">Publish</NavLink>
             </div>
         </div>
     </div>
@@ -49,9 +49,10 @@ const logout = () => {
 
 
 
+
             <nav class="fixed top-0 left-0 w-full z-50 bg-slate-900 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -62,34 +63,34 @@ const logout = () => {
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"  v-if="$page.props.auth.user.power === 9">
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
                                 <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
                                     Categories
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"  v-if="$page.props.auth.user.power === 9">
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
                                 <NavLink :href="route('posts.index')" :active="route().current('posts.index')">
                                     Posts
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"  v-if="$page.props.auth.user.power === 9">
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
                                 <NavLink :href="route('about')" :active="route().current('about')">
                                     About Us
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"  v-if="$page.props.auth.user.power === 9">
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
                                 <NavLink :href="route('contact')" :active="route().current('contact')">
                                     Contact Us
                                 </NavLink>
                             </div>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <div class="hidden md:flex md:items-center md:ms-6">
                             <div class="ms-3 relative">
                                 <!-- Teams Dropdown -->
                                 <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
@@ -195,7 +196,7 @@ const logout = () => {
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="-me-2 flex items-center sm:hidden">
+                        <div class="-me-2 flex items-center md:hidden">
                             <button class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-400 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-white transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown">
                                 <svg
                                     class="h-6 w-6"
@@ -224,7 +225,7 @@ const logout = () => {
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
+                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="md:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
@@ -330,7 +331,7 @@ const logout = () => {
 
             <!-- Page Heading -->
             <header v-if="$slots.header" class="bg-slate-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto py-6 px-4 md:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
@@ -342,29 +343,3 @@ const logout = () => {
         </div>
     </div>
 </template>
-<style>
-/* Styles for the navigation bar */
-
-/* Styles for the fixed navigation bar */
-.nav-left {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: auto; /* Adjust width as needed */
-    height: 100vh; /* Make the navigation bar full height */
-    background-color: #1F2937; /* Change background color */
-    border-right: 1px solid #CBD5E0; /* Add a border */
-    /* padding: 1rem; */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    z-index: 999; /* Ensure the navigation bar is on top of other content */
-}
-
-/* Media query to hide nav-left on small screens */
-@media (max-width: 768px) {
-    .nav-left {
-        display: none;
-    }
-}
-</style>

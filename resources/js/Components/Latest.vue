@@ -1,4 +1,5 @@
 <script setup>
+import {Link} from '@inertiajs/vue3';
 // Define a function to truncate text to a certain number of words
 const truncateText = (text, limit = 20) => {
   const words = text.split(' ');
@@ -10,10 +11,10 @@ const truncateText = (text, limit = 20) => {
 </script>
 <template>
   <div class="py-4">
-    <div class="mx-auto max-w-7xl sm:px-3 lg:px-2">
-        <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+    <div class="mx-auto max-w-7xl md:px-3 lg:px-2">
+        <div class="overflow-hidden bg-white shadow-sm md:rounded-lg">
             <div class=" bg-white border-b border-gray-200">
-              <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <div class="relative overflow-x-auto shadow-md md:rounded-lg">
                   <div class="w-full text-lg text-left text-black dark:text-gray-400">
               <h1 class="text-2xl p-4 text-white uppercase bg-slate-900 dark:bg-gray-700 dark:text-gray-400">
                 Latest Post
@@ -21,14 +22,17 @@ const truncateText = (text, limit = 20) => {
                 <div v-if="posts.length === 0">Loading...</div>
                   <div v-else>
                     <div v-for="post in posts" :key="post.id">
+                      <Link :href="`/view/${post.id}`">
                       <div class="pt-2 grid grid-cols-1 md:grid-cols-9 gap-6 lg:gap-8">
-                        <div class="col-span-1 w-16 h-16 rounded"><img :src="'/storage/' + post.image" alt="Post Image" v-if="post.image"></div>
-                        <div class="col-span-8 ">
-                          <h2  class="text-lg font-medium px-5">{{ post.name }}</h2>
+                        <div class="hidden md:block col-span-1 w-16 h-16 rounded"><img :src="'/storage/' + post.image" alt="Post Image" v-if="post.image"></div>
+                        <div class="col-span-8 md:col-span-8">
+                          <h2 class="text-lg font-medium px-5">{{ post.name }}</h2>
+                          
                           <p class="px-5">{{ truncateText(post.body) }}</p>
                         </div>                      
-                      <hr>
+                        <hr>
                       </div>
+                    </Link>
                     </div>
                   </div>
                 </div>
@@ -38,6 +42,7 @@ const truncateText = (text, limit = 20) => {
             </div>
           </div>
 </template>
+
 
 <script>
 import axios from 'axios';

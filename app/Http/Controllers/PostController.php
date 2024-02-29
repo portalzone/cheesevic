@@ -192,11 +192,14 @@ public function trending()
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
-    {
-        
-    }
+public function show($postId)
+{
+    $post = Post::with('category')->findOrFail($postId);
     
+    return Inertia::render('Posts/View', [
+        'post' => $post->toArray(),
+    ]);
+}
 
     /**
      * Show the form for editing the specified resource.
