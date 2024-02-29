@@ -82,6 +82,16 @@ public function trending()
         $posts = Post::where('category_id', '6')->latest()->take(5)->get();
         return response()->json($posts);
     }
+    public function business()
+    {
+        $posts = Post::where('category_id', '10')->latest()->take(5)->get();
+        return response()->json($posts);
+    }
+    public function world()
+    {
+        $posts = Post::where('category_id', '11')->latest()->take(5)->get();
+        return response()->json($posts);
+    }
     
 
 
@@ -252,7 +262,8 @@ public function trending()
 
         // Redirect back to the posts index page after updating
         
-        return redirect('posts');
+        // return redirect('posts');
+        return redirect()->back()->withInput();
     }
     
 
@@ -260,8 +271,11 @@ public function trending()
      * Remove the specified resource from storage.
      */
     public function destroy(Post $post)
-    {
-        $post->delete();
-        return redirect('posts');
-    }
+{
+    $post->delete();
+
+    // Redirect back to the previous page with input data
+    return redirect()->back()->withInput();
+}
+
 }

@@ -34,7 +34,22 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-slate-700">
-            <nav class="bg-slate-900 border-b border-gray-100">
+            <div class="nav-left hidden sm:block"> <!-- Hide on small screens (hidden) and display on screens larger than small (sm:block) -->
+    <div class="bg-slate-900 pt-12 border-r border-gray-100 h-full flex flex-col justify-between">
+        <div class="pt-4 gap-6 lg:gap-8">
+            <div class="sm:flex sm:flex-col"> <!-- Change flex direction to column for small screens -->
+                <NavLink v-if="$page.props.auth.user.power === 9" :href="route('donation')" :active="route().current('donation')" class="text-white mb-2">Donation</NavLink> <!-- Add margin bottom to create space between links -->
+                <NavLink v-if="$page.props.auth.user.power === 9" :href="route('scholarship')" :active="route().current('scholarship')" class="text-white mb-2">Scholarship</NavLink>
+                <NavLink v-if="$page.props.auth.user.power === 9" :href="route('suggestion')" :active="route().current('suggestion')" class="text-white mb-2">Suggestion</NavLink>
+                <NavLink v-if="$page.props.auth.user.power === 9" :href="route('publish')" :active="route().current('publish')" class="text-white mb-2">Publish</NavLink>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+            <nav class="fixed top-0 left-0 w-full z-50 bg-slate-900 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -80,7 +95,7 @@ const logout = () => {
                                 <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-slate-700 hover:text-gray-300 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                                 {{ $page.props.auth.user.current_team.name }}
 
                                                 <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -93,7 +108,7 @@ const logout = () => {
                                     <template #content>
                                         <div class="w-60">
                                             <!-- Team Management -->
-                                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                            <div class="block px-4 py-2 text-xs text-white">
                                                 Manage Team
                                             </div>
 
@@ -110,7 +125,7 @@ const logout = () => {
                                             <template v-if="$page.props.auth.user.all_teams.length > 1">
                                                 <div class="border-t border-gray-200" />
 
-                                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                                <div class="block px-4 py-2 text-xs text-white">
                                                     Switch Teams
                                                 </div>
 
@@ -142,7 +157,7 @@ const logout = () => {
                                         </button>
 
                                         <span v-else class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-slate-700 hover:text-gray-400 focus:outline-none focus:bg-gray-200 active:bg-gray-50 transition ease-in-out duration-150">
                                                 {{ $page.props.auth.user.name }}
 
                                                 <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -154,7 +169,7 @@ const logout = () => {
 
                                     <template #content>
                                         <!-- Account Management -->
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
+                                        <div class="block px-4 py-2 text-xs text-black">
                                             Manage Account
                                         </div>
 
@@ -181,7 +196,7 @@ const logout = () => {
 
                         <!-- Hamburger -->
                         <div class="-me-2 flex items-center sm:hidden">
-                            <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown">
+                            <button class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-400 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-white transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown">
                                 <svg
                                     class="h-6 w-6"
                                     stroke="currentColor"
@@ -244,10 +259,10 @@ const logout = () => {
                             </div>
 
                             <div>
-                                <div class="font-medium text-base text-gray-800">
+                                <div class="font-medium text-base text-white">
                                     {{ $page.props.auth.user.name }}
                                 </div>
-                                <div class="font-medium text-sm text-gray-500">
+                                <div class="font-medium text-sm text-white">
                                     {{ $page.props.auth.user.email }}
                                 </div>
                             </div>
@@ -273,7 +288,7 @@ const logout = () => {
                             <template v-if="$page.props.jetstream.hasTeamFeatures">
                                 <div class="border-t border-gray-200" />
 
-                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                <div class="block px-4 py-2 text-xs text-white">
                                     Manage Team
                                 </div>
 
@@ -290,7 +305,7 @@ const logout = () => {
                                 <template v-if="$page.props.auth.user.all_teams.length > 1">
                                     <div class="border-t border-gray-200" />
 
-                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                    <div class="block px-4 py-2 text-xs text-white">
                                         Switch Teams
                                     </div>
 
@@ -327,3 +342,29 @@ const logout = () => {
         </div>
     </div>
 </template>
+<style>
+/* Styles for the navigation bar */
+
+/* Styles for the fixed navigation bar */
+.nav-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: auto; /* Adjust width as needed */
+    height: 100vh; /* Make the navigation bar full height */
+    background-color: #1F2937; /* Change background color */
+    border-right: 1px solid #CBD5E0; /* Add a border */
+    /* padding: 1rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 999; /* Ensure the navigation bar is on top of other content */
+}
+
+/* Media query to hide nav-left on small screens */
+@media (max-width: 768px) {
+    .nav-left {
+        display: none;
+    }
+}
+</style>

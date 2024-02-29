@@ -5,7 +5,9 @@ import Politics from '@/Components/Politics.vue';
 import Education from '@/Components/Education.vue';
 import Religion from '@/Components/Religion.vue';
 import Finance from '@/Components/Finance.vue';
-import Entertainment from './Entertainment.vue';
+import World from '@/Components/World.vue';
+import Entertainment from '@/Components/Entertainment.vue';
+import Business from '@/Components/Business.vue';
 </script>
 
 <template>
@@ -31,6 +33,12 @@ import Entertainment from './Entertainment.vue';
         </div>
         <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
             <Entertainment/>
+        </div>
+        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+            <Business/>
+        </div>
+        <div class="p-2 lg:p-2 bg-white border-b border-gray-200 sm:rounded-lg">            
+            <World/>
         </div>
 
         

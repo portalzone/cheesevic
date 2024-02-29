@@ -77,12 +77,14 @@ const clearPhotoFileInput = () => {
 
 <template>
     <FormSection @submitted="updateProfileInformation">
-        <template #title>
-            Profile Information
+        <template #title class>
+            <p class="text-white">Profile Information</p>
         </template>
 
         <template #description>
+            <p class="text-white">
             Update your account's profile information and email address.
+            </p>
         </template>
 
         <template #form>
@@ -113,7 +115,7 @@ const clearPhotoFileInput = () => {
                 </div>
 
                 <SecondaryButton class="mt-2 me-2" type="button" @click.prevent="selectNewPhoto">
-                    Select A New Photo
+                    <p class="text-black">Select A New Photo</p>
                 </SecondaryButton>
 
                 <SecondaryButton
@@ -122,7 +124,7 @@ const clearPhotoFileInput = () => {
                     class="mt-2"
                     @click.prevent="deletePhoto"
                 >
-                    Remove Photo
+                <p class="text-black">Remove Photo</p>
                 </SecondaryButton>
 
                 <InputError :message="form.errors.photo" class="mt-2" />

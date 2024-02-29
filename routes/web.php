@@ -46,10 +46,24 @@ Route::get('/sport-posts', [PostController::class, 'sport']);
 Route::get('/religion-posts', [PostController::class, 'religion']);
 Route::get('/politics-posts', [PostController::class, 'politics']);
 Route::get('/education-posts', [PostController::class, 'education']);
+Route::get('/business-posts', [PostController::class, 'business']);
 Route::get('/finance-posts', [PostController::class, 'finance']);
+Route::get('/world-posts', [PostController::class, 'world']);
 Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
 Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
+Route::get('/donation', function () {
+    return Inertia::render('Donation');
+})->name('donation');
+Route::get('/scholarship', function () {
+    return Inertia::render('Scholarship');
+})->name('scholarship');
+Route::get('/suggestion', function () {
+    return Inertia::render('Suggestion');
+})->name('suggestion');
+Route::get('/publish', function () {
+    return Inertia::render('Publish');
+})->name('publish');

@@ -118,7 +118,6 @@ const save = () => {
     } else {
     form._method= 'PUT';
     }
-    console.log(form);
     const formData = new FormData();
     formData.append('_token', csrfToken); // Add CSRF token
     formData.append('name', form.name);
@@ -168,6 +167,14 @@ const deletePost = (id, name) => {
         }
     });
 }
+// Define a function to truncate text to a certain number of words
+const truncateText = (text, limit = 30) => {
+  const words = text.split(' ');
+  if (words.length > limit) {
+    return words.slice(0, limit).join(' ') + '...'; // Append ellipsis if text is truncated
+  }
+  return text;
+}
 </script>
 
 
@@ -192,9 +199,9 @@ const deletePost = (id, name) => {
                 </div>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
+                            <table class="w-full text-lg text-left text-black dark:text-gray-400">
                                 <thead
-                                    class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    class="text-lg text-white uppercase bg-slate-800 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                     
                         
@@ -222,12 +229,12 @@ const deletePost = (id, name) => {
                                         </th>                        </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="po, i in posts.data" :key="po.id" class="text-sm bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <tr v-for="po, i in posts.data" :key="po.id" class="text-base bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ (i+1) }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ po.name }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">Published by: {{ po.user.name }}</td>
                         <td class="w-16 h-16"><img :src="'/storage/' + po.image" alt="Post Image" v-if="po.image"></td>
-                        <td class="px-2 py-2 text-gray-900 dark:text-white">{{ po.body }}</td>
+                        <td class="px-2 py-2 text-gray-900 dark:text-white">{{ truncateText(po.body) }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ po.category }}</td>
                         <td class="px-2 py-2">
                             <WarningButton 

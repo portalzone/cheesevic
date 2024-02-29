@@ -37,29 +37,29 @@ const deleteCategory = (id,name) => {
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Categories</h2>
         </template>
 
-        <div class="py-12">
-            <div class="bg-white grid v-screen place-items-center">
+        <div class="py-0">
+            <div class="bg-slate-800 grid v-screen place-items-center">
                 <div class="mt-3 mb-3 flex">
                     <Link :href="route('categories.create')"
-                    :class="'px-4 py-3 bg-gray-800 text-white border rounded-md font-semibold text-xs'" >
+                    :class="'px-4 py-3 bg-white text-lg text-black border rounded-md font-semibold'" >
                     <i class="fa-solid fa-plus-circle"></i>Add
                 </Link>                    
                 </div>
             </div>
-            <div class="bg-white grid v-screen place-items-center">
-                <table class="table-auto border border-gray-400">
+            <div class="bg-slate-700 grid v-screen place-items-center">
+                <table class="bg-white table-auto border border-gray-400 rounded-lg">
                     <thead>
-                        <tr class="bg-gray-100">
+                        <tr class="text-xl p-4 text-white uppercase bg-slate-900 dark:bg-gray-700 dark:text-gray-400">
                             <th class="px-4 py-4">#</th>
                             <th class="px-4 py-4">Categories</th>
-                            <th class="px-4 py-4">#</th>
-                            <th class="px-4 py-4">#</th>
+                            <th class="px-4 py-4">Edit</th>
+                            <th class="px-4 py-4">Delete</th>
 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-lg">
                         <tr v-for="cat, i in categories" :key="cat.id">
-                        <td class="border border-gray-400 px-4 py-4">{{ (i+1) }}</td>
+                        <td class="border border-gray-400 px-4 py-4 font-bold">{{ (i+1) }}</td>
                         <td class="border border-gray-400 px-4 py-4">{{ cat.name }}</td>
                         <td class="border border-gray-400 px-4 py-4">
                             <Link :href="route('categories.edit', cat.id)"

@@ -16,7 +16,7 @@ const truncateText = (text, limit = 20) => {
               <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                   <div class="w-full text-lg text-left text-black dark:text-gray-400">
               <h1 class="text-2xl p-4 text-white uppercase bg-slate-900 dark:bg-gray-700 dark:text-gray-400">
-                Education
+                World News
               </h1>
                 <div v-if="posts.length === 0">Loading...</div>
                   <div v-else>
@@ -49,12 +49,12 @@ export default {
     };
   },
   mounted() {
-    axios.get('/education-posts')
+    axios.get('/world-posts')
       .then(response => {
         this.posts = response.data;
       })
       .catch(error => {
-        console.error('Error fetching education posts: ', error);
+        console.error('Error fetching world posts: ', error);
       });
   }
 }
