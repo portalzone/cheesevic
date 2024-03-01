@@ -1,6 +1,6 @@
 <script setup>
 
-import AppLayout from '@/Layouts/AppLayout.vue';
+import GuestLayout from '@/Layouts/GuestLayout.vue';
 import Side from '@/Components/Side.vue';
 import {Link} from '@inertiajs/vue3';
 
@@ -12,7 +12,7 @@ import {Link} from '@inertiajs/vue3';
 
 </script>
 <template>
-    <AppLayout :title="$props.post.category.name + ' - ' + $props.post.name">
+    <GuestLayout :title="$props.post.category.name + ' - ' + $props.post.name">
         <template #header>
             <h2 class="pt-12 font-semibold text-xl text-white leading-tight">
                 <Link :href="route('dashboard')" :active="route().current('dashboard')">
@@ -46,7 +46,7 @@ import {Link} from '@inertiajs/vue3';
       </div>
     </div>
     </div>
-</AppLayout>
+</GuestLayout>
 </template>
   
   <script>

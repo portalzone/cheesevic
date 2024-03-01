@@ -34,7 +34,7 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-slate-700">
-            <div class="hidden md:block fixed top-0 left-0 h-screen bg-slate-900 border-r border-gray-100 flex-col justify-between z-50">
+            <div class="hidden lg:block fixed top-0 left-0 h-screen bg-slate-900 border-r border-gray-100 flex-col justify-between z-50">
     <div class="pt-12">
         <div class="pt-4 gap-6 lg:gap-8">
             <div class="md:flex md:flex-col items-center">

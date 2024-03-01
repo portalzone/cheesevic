@@ -38,13 +38,28 @@ const logout = () => {
 
         <Banner />
 
-        <div class=" bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+        <div class=" min-h-screen bg-slate-700">
+            <!-- static side nav bar -->
+            <div class="hidden lg:block fixed top-0 left-0 h-screen bg-slate-900 border-r border-gray-100 flex-col justify-between z-50">
+    <div class="pt-12">
+        <div class="pt-4 gap-6 lg:gap-8">
+            <div class="md:flex md:flex-col items-center">
+                <NavLink :href="route('donation')" :active="route().current('donation')" class="text-white mb-2">Donation</NavLink>
+                <NavLink :href="route('scholarship')" :active="route().current('scholarship')" class="text-white mb-2">Scholarship</NavLink>
+                <NavLink :href="route('suggestion')" :active="route().current('suggestion')" class="text-white mb-2">Suggestion</NavLink>
+                <NavLink :href="route('publish')" :active="route().current('publish')" class="text-white mb-2">Publish</NavLink>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- static top nav bar -->
+            <nav class="fixed top-0 left-0 w-full z-50 bg-slate-900 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
+
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
                                     <ApplicationMark class="block h-9 w-auto" />
@@ -52,23 +67,40 @@ const logout = () => {
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                            <div class="flex" v-if="$page.props.auth.user">
+                                <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
+                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
-                                </ResponsiveNavLink>
+                                </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <ResponsiveNavLink :href="route('about')" :active="route().current('about')">
-                                    About Us
-                                </ResponsiveNavLink>
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
+                                <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                                    Categories
+                                </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <ResponsiveNavLink :href="route('contact')" :active="route().current('contact')">
-                                    Contact Us
-                                </ResponsiveNavLink>
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
+                                <NavLink :href="route('posts.index')" :active="route().current('posts.index')">
+                                    Posts
+                                </NavLink>
                             </div>
                         </div>
-                        <div class="ms-3 relative">
+                        <div v-else>
+                            <!-- What you want non-login user to see -->
+                        </div>
+                        <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
+                                <NavLink :href="route('about')" :active="route().current('about')">
+                                    About Us
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
+                                <NavLink :href="route('contact')" :active="route().current('contact')">
+                                    Contact Us
+                                </NavLink>
+                            </div>
+
+                        </div>
+                        
+                        <div class="hidden md:block ms-3 relative">
                                 <Dropdown align="right" width="48" v-if="$page.props.auth.user">
                                     <!-- Dropdown Trigger -->
                                     <template #trigger>
@@ -123,7 +155,7 @@ const logout = () => {
                             </div>
 
                         <!-- Hamburger -->
-                        <div class="-me-2 flex items-center sm:hidden">
+                        <div class="-me-2 flex items-center md:hidden">
                             <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown">
                                 <svg
                                     class="h-6 w-6"
@@ -152,28 +184,129 @@ const logout = () => {
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </ResponsiveNavLink>
+                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="md:hidden">
+                    <div class="block" v-if="$page.props.auth.user">
+                        <div class="pt-2 pb-3 space-y-1">
+                            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                Dashboard
+                            </ResponsiveNavLink>
+                        </div>
+                        <div class="pt-2 pb-3 space-y-1"  v-if="$page.props.auth.user.power === 9">
+                            <ResponsiveNavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                                Categories
+                            </ResponsiveNavLink>
+                        </div>
+                        <div class="pt-2 pb-3 space-y-1"  v-if="$page.props.auth.user.power === 9">
+                            <ResponsiveNavLink :href="route('posts.index')" :active="route().current('posts.index')">
+                                Post
+                            </ResponsiveNavLink>
+                        </div>
                     </div>
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('about')" :active="route().current('about')">
-                            About Us
-                        </ResponsiveNavLink>
+                    <div v-else>
+                        <!-- settings for non-login user -->
                     </div>
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('contact')" :active="route().current('contact')">
-                            Contact Us
-                        </ResponsiveNavLink>
-                    </div>
+                        <div class="pt-2 pb-3 space-y-1">
+                            <ResponsiveNavLink :href="route('about')" :active="route().current('about')">
+                                About Us
+                            </ResponsiveNavLink>
+                        </div>
+                        <div class="pt-2 pb-3 space-y-1">
+                            <ResponsiveNavLink :href="route('contact')" :active="route().current('contact')">
+                                Contact Us
+                            </ResponsiveNavLink>
+                        </div>
+                    <!-- Responsive Settings Options -->
+                    <div class="pt-4 pb-1 border-t border-gray-200">
+                        <div class="block" v-if="$page.props.auth.user">
+                            <div class="flex items-center px-4">
+                                <div v-if="$page.props.jetstream.managesProfilePhotos" class="shrink-0 me-3">
+                                    <img class="h-10 w-10 rounded-full object-cover" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
+                                </div>
+
+                                <div>
+                                    <div class="font-medium text-base text-white">
+                                        {{ $page.props.auth.user.name }}
+                                    </div>
+                                    <div class="font-medium text-sm text-white">
+                                        {{ $page.props.auth.user.email }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 space-y-1">
+                                <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
+                                    Profile
+                                </ResponsiveNavLink>
+
+                                <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')" :active="route().current('api-tokens.index')">
+                                    API Tokens
+                                </ResponsiveNavLink>
+
+                                <!-- Authentication -->
+                                <form method="POST" @submit.prevent="logout">
+                                    <ResponsiveNavLink as="button">
+                                        Log Out
+                                    </ResponsiveNavLink>
+                                </form>
+
+                            <!-- Team Management -->
+                                <template v-if="$page.props.jetstream.hasTeamFeatures">
+                                    <div class="border-t border-gray-200" />
+
+                                    <div class="block px-4 py-2 text-xs text-white">
+                                        Manage Team
+                                    </div>
+
+                                    <!-- Team Settings -->
+                                    <ResponsiveNavLink :href="route('teams.show', $page.props.auth.user.current_team)" :active="route().current('teams.show')">
+                                        Team Settings
+                                    </ResponsiveNavLink>
+
+                                    <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')" :active="route().current('teams.create')">
+                                        Create New Team
+                                    </ResponsiveNavLink>
+
+                                    <!-- Team Switcher -->
+                                    <template v-if="$page.props.auth.user.all_teams.length > 1">
+                                        <div class="border-t border-gray-200" />
+
+                                        <div class="block px-4 py-2 text-xs text-white">
+                                            Switch Teams
+                                        </div>
+
+                                        <template v-for="team in $page.props.auth.user.all_teams" :key="team.id">
+                                            <form @submit.prevent="switchToTeam(team)">
+                                                <ResponsiveNavLink as="button">
+                                                    <div class="flex items-center">
+                                                        <svg v-if="team.id == $page.props.auth.user.current_team_id" class="me-2 h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                        <div>{{ team.name }}</div>
+                                                    </div>
+                                                </ResponsiveNavLink>
+                                            </form>
+                                        </template>
+                                    </template>
+                                </template>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <ResponsiveNavLink :href="route('login')">
+                                Log in
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('register')">
+                                Register
+                            </ResponsiveNavLink>
+                        </div>
+                    </div>                    
                 </div>
+                
+                
             </nav>
 
             <!-- Page Heading -->
             <header v-if="$slots.header" class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto py-6 px-4 md:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
