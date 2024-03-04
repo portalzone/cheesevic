@@ -36,8 +36,11 @@ Route::middleware([
     })->name('dashboard');
     Route::resource('categories', CategoryController::class);
     Route::resource('posts', PostController::class);
-    
+    // Custom edit route for posts
+    Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/posts/{post}', [PostController::class, 'updatePost'])->name('posts.update');
 });
+
 
 Route::get('/latest-posts', [PostController::class, 'latestPosts']);
 Route::get('/trending-posts', [PostController::class, 'trending']);
@@ -49,7 +52,7 @@ Route::get('/education-posts', [PostController::class, 'education']);
 Route::get('/business-posts', [PostController::class, 'business']);
 Route::get('/finance-posts', [PostController::class, 'finance']);
 Route::get('/world-posts', [PostController::class, 'world']);
-Route::get('/view/{postId}', [PostController::class, 'show']);
+Route::get('/view/{postId}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');

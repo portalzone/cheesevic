@@ -206,12 +206,60 @@ public function show($postId)
      */
     public function edit(Post $post)
     {
-        //
+        // Assuming you have an 'edit' view for editing posts
+        return Inertia::render('Posts/Edit', [
+            'posts' => $post,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
+
+     public function updatePost(Request $request, Post $post)
+     {
+        $validated = $request->validate([
+            'name' => 'required|min:10|max:150',
+            'body' => 'required|min:50',
+            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            
+        ]);
+         
+         if ($request->file('image')) {
+            $validated2 = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                
+            ]); 
+        };
+        if ($request->file('image')) {
+
+            // Delete the previous image if it exists
+            if ($post->image) {
+                // Assuming 'public' is the disk where images are stored
+                \Storage::disk('public')->delete($post->image);
+            }
+            // Store the new image
+            $imagePath = $request->file('image')->store('images', 'public');
+        } else {
+            // If no new image is uploaded, keep the existing image path
+            $imagePath = $post->image;
+        }
+
+        // Update post data
+        $post->update([
+            'name' => $validated['name'],
+            'body' => $validated['body'],
+            'image' => $imagePath,
+        ]);
+
+        // Redirect back to the posts index page after updating
+        
+        // return redirect('posts');
+        return redirect()->back()->withInput();
+
+     }
+
+
     // public function update(Request $request, Post $post)
     // {
     //     $request->validate([
