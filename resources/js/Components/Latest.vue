@@ -24,7 +24,9 @@ const truncateText = (text, limit = 20) => {
                     <div v-for="post in posts" :key="post.id">
                       <Link :href="`/view/${post.id}`">
                       <div class="pt-2 grid grid-cols-1 md:grid-cols-9 gap-6 lg:gap-8">
-                        <div class="hidden md:block col-span-1 w-16 h-16 rounded"><img :src="'/storage/' + post.image" alt="Post Image" v-if="post.image"></div>
+                        <div class="hidden md:block col-span-1 w-16 h-16 rounded-lg overflow-hidden">
+                          <img :src="'/storage/' + post.image" alt="Post Image" v-if="post.image">
+                        </div>
                         <div class="col-span-8 md:col-span-8">
                           <h2 class="text-lg font-medium px-5">{{ post.name }}</h2>
                           

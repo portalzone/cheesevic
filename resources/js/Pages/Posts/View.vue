@@ -9,7 +9,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
-import SelectInput from '@/Components/SelectInput.vue';
 import { Link } from '@inertiajs/vue3';
 import { nextTick, ref} from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
@@ -45,7 +44,7 @@ const form = useForm({
 
 // Function to check if the user can edit the post
 function canEditPost() {
-  return currentUser && (currentUser.id === post.user_id || currentUser.power === "9");
+  return currentUser && (currentUser.id === post.user_id || currentUser.power === 9);
 }
 
 const openModal = (op, name, body, post, image) => {

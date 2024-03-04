@@ -8,8 +8,19 @@ import Side from '@/Components/Side.vue';
     <AppLayout title="Dashboard">
         <template #header>
             <h2 class="pt-12 pl-12 font-semibold text-xl text-white leading-tight">
-                Welcome back, {{ $page.props.auth.user.name }}
+      Welcome back,
+      <template v-if="$page.props.auth.user.power === 3">
+        Moderator:
+      </template>
+      <template v-else-if="$page.props.auth.user.power === 9">
+        Admin:
+      </template>
+      <template v-else>
+        <!-- Empty string -->
+      </template> {{ $page.props.auth.user.name }}
+  
             </h2>
+
         </template>
 
         <div class="py-4">

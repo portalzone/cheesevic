@@ -13,8 +13,8 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
         <div class="py-12">
 
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <h1>About Us</h1>
-                <p>
+                <h1 class="text-white text-2xl">About Us</h1>
+                <p class="text-white">
                     Cheesevic is a blogging site aimed at deseminating information to everyone accross the globe.
 
                 </p>

@@ -44,19 +44,18 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-slate-700">
-            <div class="hidden lg:block fixed top-0 left-0 h-screen bg-slate-900 border-r border-gray-100 flex-col justify-between z-50">
+            <div class="hidden md:block fixed top-0 left-0 h-screen bg-slate-900 border-r border-gray-100 flex-col justify-between z-50">
     <div class="pt-12">
         <div class="pt-12 px-4 gap-6 lg:gap-8">
             <div class="md:flex md:flex-col items-center">
-                <NavLink :href="route('donation')" :active="route().current('donation')" class="text-white mb-2 p-4"><i class="fa-solid fa-donate"></i> </NavLink>
-                <NavLink :href="route('scholarship')" :active="route().current('scholarship')" class="text-white mb-2 p-4"><i class="fa-solid fa-graduation-cap"></i> </NavLink>
-                <NavLink :href="route('suggestion')" :active="route().current('suggestion')" class="text-white mb-2 p-4"><i class="fa-solid fa-pen-to-square"></i> </NavLink>
-                <NavLink :href="route('publish')" :active="route().current('publish')" class="text-white mb-2 p-4"><i class="fa-solid fa-upload"></i> </NavLink>
+                <NavLink :href="route('donation')" :active="route().current('donation')" class="text-white mb-2 p-4" title="Donations"><i class="fa-solid fa-donate"></i> </NavLink>
+                <NavLink :href="route('scholarship')" :active="route().current('scholarship')" class="text-white mb-2 p-4" title="Scholarship"><i class="fa-solid fa-graduation-cap"></i> </NavLink>
+                <NavLink :href="route('suggestion')" :active="route().current('suggestion')" class="text-white mb-2 p-4" title="Suggestions"><i class="fa-solid fa-pen-to-square"></i> </NavLink>
+                <NavLink :href="route('publish')" :active="route().current('publish')" class="text-white mb-2 p-4"  title="Publish"><i class="fa-solid fa-upload"></i> </NavLink>
             </div>
         </div>
     </div>
 </div>
-
 
 
 
@@ -122,17 +121,17 @@ const logout = () => {
                                     Categories
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="($page.props.auth.user.power === 9 || $page.props.auth.user.power === 3)">
                                 <NavLink :href="route('posts.index')" :active="route().current('posts.index')">
                                     Posts
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
                                 <NavLink :href="route('about')" :active="route().current('about')">
                                     About Us
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
                                 <NavLink :href="route('contact')" :active="route().current('contact')">
                                     Contact Us
                                 </NavLink>

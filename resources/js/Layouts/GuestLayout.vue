@@ -54,14 +54,15 @@ const logout = () => {
     <div class="pt-12">
         <div class="pt-12 px-4 gap-6 lg:gap-8">
             <div class="md:flex md:flex-col items-center">
-                <NavLink :href="route('donation')" :active="route().current('donation')" class="text-white mb-2 p-4"><i class="fa-solid fa-donate"></i> </NavLink>
-                <NavLink :href="route('scholarship')" :active="route().current('scholarship')" class="text-white mb-2 p-4"><i class="fa-solid fa-graduation-cap"></i> </NavLink>
-                <NavLink :href="route('suggestion')" :active="route().current('suggestion')" class="text-white mb-2 p-4"><i class="fa-solid fa-pen-to-square"></i> </NavLink>
-                <NavLink :href="route('publish')" :active="route().current('publish')" class="text-white mb-2 p-4"><i class="fa-solid fa-upload"></i> </NavLink>
+                <NavLink :href="route('donation')" :active="route().current('donation')" class="text-white mb-2 p-4" title="Donations"><i class="fa-solid fa-donate"></i> </NavLink>
+                <NavLink :href="route('scholarship')" :active="route().current('scholarship')" class="text-white mb-2 p-4" title="Scholarship"><i class="fa-solid fa-graduation-cap"></i> </NavLink>
+                <NavLink :href="route('suggestion')" :active="route().current('suggestion')" class="text-white mb-2 p-4" title="Suggestions"><i class="fa-solid fa-pen-to-square"></i> </NavLink>
+                <NavLink :href="route('publish')" :active="route().current('publish')" class="text-white mb-2 p-4"  title="Publish"><i class="fa-solid fa-upload"></i> </NavLink>
             </div>
         </div>
     </div>
 </div>
+
 
             <!-- static top nav bar -->
             <nav class="fixed top-0 left-0 w-full z-50 bg-slate-900 border-b border-gray-100">

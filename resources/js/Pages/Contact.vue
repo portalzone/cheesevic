@@ -13,8 +13,8 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
         <div class="py-12">
 
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <h1>Contact Us</h1>
-                <p>
+                <h1 class="text-white text-2xl">Contact Us</h1>
+                <p class="text-white">
                     Use the form below to contact us, or call +2348137013267.
 
                 </p>

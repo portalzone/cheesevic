@@ -19,19 +19,36 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $posts = Post::select('posts.id', 'posts.name', 'posts.body', 'posts.user_id', 'posts.category_id', 'posts.image', 'categories.name as category')
-        ->join('categories', 'categories.id', '=', 'posts.category_id')
-        ->with('user')
-        ->paginate(10);
+    {
+        $user = auth()->user();
 
-    $categories = Category::all();
+        // Initialize query
+        $query = Post::select(
+            'posts.id',
+            'posts.name',
+            'posts.body',
+            'posts.user_id',
+            'posts.category_id',
+            'posts.image',
+            'categories.name as category'
+        )->join('categories', 'categories.id', '=', 'posts.category_id');
 
-    return Inertia::render('Posts/Index', [
-        'posts' => $posts,
-        'categories' => $categories
-    ]);
-}
+        // If user's power is 3, filter posts by user_id
+        if ($user && $user->power == 3) {
+            $query->where('posts.user_id', $user->id);
+        }
+
+        // Retrieve paginated posts with associated user
+        $posts = $query->with('user')->paginate(10);
+
+        $categories = Category::all();
+
+        return Inertia::render('Posts/Index', [
+            'posts' => $posts,
+            'categories' => $categories
+        ]);
+    }
+
 
     // public function index()
     // {
@@ -155,40 +172,6 @@ public function trending()
         return redirect('posts');
     }
 
-// public function store(Request $request)
-// {
-//     // Validate the request data
-//     $validator = Validator::make($request->all(), [
-//         'name' => 'required|string|max:255',
-//         'body' => 'required|string',
-//         'category_id' => 'required|exists:categories,id',
-//         'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-//     ]);
-
-//     // Check if the validation fails
-//     if ($validator->fails()) {
-//         return redirect()->back()->withErrors($validator)->withInput();
-//     }
-
-//     // Store the post data
-//     $post = new Post();
-//     $post->name = $request->name;
-//     $post->body = $request->body;
-//     $post->category_id = $request->category_id;
-
-//     // Upload the image
-//     $image = $request->file('image');
-//     $imageName = time().'.'.$image->getClientOriginalExtension(); // Get the extension of the uploaded file
-//     $image->move(public_path('images'), $imageName); // Move the uploaded file to the public/images directory
-
-//     $post->image = $imageName;
-
-//     // Save the post
-//     $post->save();
-
-//     return redirect('posts');
-// }
-
     /**
      * Display the specified resource.
      */
@@ -218,6 +201,9 @@ public function show($postId)
 
      public function updatePost(Request $request, Post $post)
      {
+        $user = auth()->user();
+        if ($user && $user->power == 3) {
+        
         $validated = $request->validate([
             'name' => 'required|min:10|max:150',
             'body' => 'required|min:50',
@@ -251,6 +237,46 @@ public function show($postId)
             'body' => $validated['body'],
             'image' => $imagePath,
         ]);
+    } else {
+
+        // dd(Request::all());
+        // dd($request->file('image'));
+        $validated = $request->validate([
+            'name' => 'required|min:10|max:150',
+            'body' => 'required|min:50',
+            'category_id' => 'required|numeric',
+            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            
+        ]);
+        if ($request->file('image')) {
+            $validated2 = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                
+            ]); 
+        };
+        if ($request->file('image')) {
+
+            // Delete the previous image if it exists
+            if ($post->image) {
+                // Assuming 'public' is the disk where images are stored
+                \Storage::disk('public')->delete($post->image);
+            }
+            // Store the new image
+            $imagePath = $request->file('image')->store('images', 'public');
+        } else {
+            // If no new image is uploaded, keep the existing image path
+            $imagePath = $post->image;
+        }
+
+        // Update post data
+        $post->update([
+            'name' => $validated['name'],
+            'body' => $validated['body'],
+            'category_id' => $validated['category_id'],
+            'image' => $imagePath,
+        ]);
+
+    }
 
         // Redirect back to the posts index page after updating
         
@@ -260,17 +286,6 @@ public function show($postId)
      }
 
 
-    // public function update(Request $request, Post $post)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|min:10|max:150',
-    //         'body' => 'required|min:50',
-    //         'category_id' => 'required|numeric',
-    //     ]);
-    //     $post->update($request->input());
-    //     return redirect('posts');
-        
-    // }
 
     public function update(Request $request, Post $post)
     {

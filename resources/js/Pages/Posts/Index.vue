@@ -11,13 +11,13 @@ import SelectInput from '@/Components/SelectInput.vue';
 import WarningButton from '@/Components/WarningButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import Modal from '@/Components/Modal.vue';
+import { usePage } from '@inertiajs/inertia-vue3';
 import { Head, useForm } from '@inertiajs/vue3';
 import { nextTick, ref, defineProps } from 'vue';
 import Swal from 'sweetalert2';
 import VueTailWindPagination from '@ocrv/vue-tailwind-pagination';
 
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
 const nameInput = ref(null);
 const modal = ref(false);
 const title = ref('');
@@ -26,8 +26,10 @@ const id = ref('');
 
 const props = defineProps({
     posts: { type: Object },
-    categories: { type: Object }  
+    categories: { type: Object },
 });
+
+
 
 const form = useForm({
     _method: null,
@@ -37,8 +39,23 @@ const form = useForm({
     image: null, // Change to null to represent no image initially
 });
 
-const formPage = useForm({});
+// const formPage = useForm({});
 
+// Assuming the user object is available from the page
+const { props: { user } } = usePage();
+
+// Function to check if the user has power equal to 3
+const filteredPosts = ref(props.posts.data); // Initially, all posts are rendered
+
+const hasPower3 = () => {
+    return user && user.power === 3;
+};
+
+if (hasPower3()) {
+    // If user has power 3, filter the posts to show only their own posts
+    filteredPosts.value = props.posts.data.filter(post => post.user_id === user.id);
+}
+console.log(user);
 const onPageClick = (event) => {
     formPage.get(route('posts.index', { page: event }));
 }
@@ -229,7 +246,7 @@ const truncateText = (text, limit = 30) => {
                                         </th>                        </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="po, i in posts.data" :key="po.id" class="text-base bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <tr v-for="po, i in filteredPosts" :key="po.id" class="text-base bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ (i+1) }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ po.name }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">Published by: {{ po.user.name }}</td>
