@@ -34,6 +34,8 @@ class PostController extends Controller
         )->join('categories', 'categories.id', '=', 'posts.category_id');
 
         // If user's power is 3, filter posts by user_id
+        $query->where('posts.hidden', 0);
+
         if ($user && $user->power == 3) {
             $query->where('posts.user_id', $user->id);
         }
@@ -59,9 +61,13 @@ class PostController extends Controller
     //     $categories = Category::all();
     //     return Inertia::render('Posts/Index', ['posts' => $posts, 'categories' =>$categories]);
     // }
-public function latestPosts()
+    public function latestPosts()
     {
-        $posts = Post::latest()->take(5)->get(); // Example: Get the 5 latest posts
+        $posts = Post::where('hidden', '0') // Select posts where 'hidden' column is '0'
+                     ->latest()
+                     ->take(5)
+                     ->get(); // Example: Get the 5 latest posts
+        
         return response()->json($posts);
     }
 public function trending()
@@ -71,42 +77,42 @@ public function trending()
     }
     public function entertainment()
     {
-        $posts = Post::where('category_id', '1')->latest()->take(5)->get();
+        $posts = Post::where('category_id', '1')->where('hidden', '0')->latest()->take(5)->get();
         return response()->json($posts);
     }
     public function sport()
     {
-        $posts = Post::where('category_id', '2')->latest()->take(5)->get();
+        $posts = Post::where('category_id', '2')->where('hidden', '0')->latest()->take(5)->get();
         return response()->json($posts);
     }
     public function religion()
     {
-        $posts = Post::where('category_id', '3')->latest()->take(5)->get();
+        $posts = Post::where('category_id', '3')->where('hidden', '0')->latest()->take(5)->get();
         return response()->json($posts);
     }
     public function politics()
     {
-        $posts = Post::where('category_id', '4')->latest()->take(5)->get();
+        $posts = Post::where('category_id', '4')->where('hidden', '0')->latest()->take(5)->get();
         return response()->json($posts);
     }
     public function education()
     {
-        $posts = Post::where('category_id', '5')->latest()->take(5)->get();
+        $posts = Post::where('category_id', '5')->where('hidden', '0')->latest()->take(5)->get();
         return response()->json($posts);
     }
     public function finance()
     {
-        $posts = Post::where('category_id', '6')->latest()->take(5)->get();
+        $posts = Post::where('category_id', '6')->where('hidden', '0')->latest()->take(5)->get();
         return response()->json($posts);
     }
     public function business()
     {
-        $posts = Post::where('category_id', '10')->latest()->take(5)->get();
+        $posts = Post::where('category_id', '10')->where('hidden', '0')->latest()->take(5)->get();
         return response()->json($posts);
     }
     public function world()
     {
-        $posts = Post::where('category_id', '11')->latest()->take(5)->get();
+        $posts = Post::where('category_id', '11')->where('hidden', '0')->latest()->take(5)->get();
         return response()->json($posts);
     }
     
@@ -175,19 +181,22 @@ public function trending()
     /**
      * Display the specified resource.
      */
-public function show($postId)
-{
-    $post = Post::with('category')->findOrFail($postId);
+    public function show($postId)
+    {
+        $post = Post::with('category')->findOrFail($postId);
     
-    // return Inertia::render('Posts/View', [
-    //     'post' => $post->toArray(),
-    // ]);
-
-    return Inertia::render('Posts/View', [
-        'post' => $post,
-        // 'categories' => $categories
-    ]);
-}
+        // Check if the 'hidden' column value is not equal to '0'
+        if ($post->hidden !== 0) {
+            // If the 'hidden' column value is not equal to '0', return an error response
+            return response()->json(['error' => 'Post not found or access denied'], 404);
+        }
+    
+        return Inertia::render('Posts/View', [
+            'post' => $post,
+            // 'categories' => $categories
+        ]);
+    }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -242,13 +251,14 @@ public function show($postId)
 
         // Redirect back to the posts index page after updating
         
-        // return redirect()->back()->withInput();
+        return redirect()->back()->withInput();
         // return redirect('posts');
 
-        return Inertia::render('Posts/View', [
-            'post' => $post,
-            // 'categories' => $categories
-        ]);
+        // $post = Post::with('category')->findOrFail($post);
+        // return Inertia::render('Posts/View', [
+        //     'post' => $post,
+        //     // 'categories' => $categories
+        // ]);
 
      }
 
@@ -304,10 +314,21 @@ public function show($postId)
      */
     public function destroy(Post $post)
 {
-    $post->delete();
+    // Check if the user has the required permissions
+    if (auth()->user()->power == 9) {
+        // User has power of 9, delete the post
+        $post->delete();
+    } elseif (auth()->user()->power == 3) {
+        // User has power of 3, change the 'hidden' column to 1
+        $post->update(['hidden' => 1]);
+    } else {
+        // User does not have sufficient permissions, return unauthorized access error
+        return response()->json(['error' => 'Unauthorized access'], 403);
+    }
 
     // Redirect back to the previous page with input data
     return redirect()->back()->withInput();
 }
+
 
 }

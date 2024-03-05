@@ -1,4 +1,6 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
+
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import Side from '@/Components/Side.vue';
 import WarningButton from '@/Components/WarningButton.vue';
@@ -85,7 +87,6 @@ const save = () => {
     if (form.image) {
         formData.append('image', form.image);
     }
-
     if (operation.value == 1) {
         form.post(route('posts.store'), {
             preserveScroll: true,
@@ -96,8 +97,10 @@ const save = () => {
     } else {
         form.post(route('post.update', id.value), {
             preserveState: true,
-            onSuccess: () => { ok('Post updated');},
-            // onSuccess: () => { ok('Post updated'); window.location.reload(); },
+            onSuccess: () => { ok('Post updated'); window.location.reload(); },
+            // onSuccess: () => { ok('Post updated');},
+            // onSuccess: () => { ok('Post updated'); Inertia.visit(route('post.view', id.value)); },
+            // onSuccess: () => { ok('Post updated'); window.location.href="{/view/${post.id}}"; },
             onError: (errors) => { console.error('Error updating post:', errors); },
         });
     }
@@ -154,17 +157,19 @@ const deletePost = (id, name) => {
                 <div class="relative overflow-x-auto shadow-md md:rounded-lg">
                   <div class="w-full text-lg text-left text-black dark:text-gray-400">
                     <div class="">
-    <template v-if="canEditPost()">
-        <WarningButton 
-                            @click="$event => openModal(2, post.name, post.body, post.id, post.image)">
-                                <i class="fa-solid fa-edit"></i> Edit
-                            </WarningButton>
-    </template>
-</div>
 
+                    </div>
                     <h1 class="text-2xl p-4 text-white uppercase bg-slate-900 dark:bg-gray-700 dark:text-gray-400">
                       {{ post.category.name }} - {{ post.name }}
-                      
+                      <template v-if="canEditPost()">
+                            <WarningButton 
+                              @click="$event => openModal(2, post.name, post.body, post.id, post.image)">
+                                <i class="fa-solid fa-edit"></i> Edit
+                            </WarningButton>
+                            <DangerButton @click="$event => deletePost(post.id,post.name)">
+                                <i class="fa-solid fa-trash"></i>Delete
+                            </DangerButton>
+                      </template>
                     </h1>
                     <!-- Display the image if it exists -->
                     <img :src="'/storage/' + post.image" alt="Post Image" v-if="post.image" class="mx-auto mt-4 rounded-lg w-1/2">

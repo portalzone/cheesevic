@@ -37,11 +37,17 @@ Route::middleware([
     Route::resource('categories', CategoryController::class);
     Route::resource('posts', PostController::class);
     // Custom edit route for posts
-    Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    // Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/post/{post}', [PostController::class, 'updatePost'])->name('post.update');
 });
 
-
+//Route::fallback(function () {
+//    return Inertia::render('NotFound');
+//});
+// Route::get('/{any}', function () {
+//     return Inertia::render('NotFound'); // Render the Vue 3 component for the 404 page
+// })->where('any', '.*')->name('not-found');
+Route::get('/view/{postId}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/latest-posts', [PostController::class, 'latestPosts']);
 Route::get('/trending-posts', [PostController::class, 'trending']);
 Route::get('/entertainment-posts', [PostController::class, 'entertainment']);
@@ -52,7 +58,6 @@ Route::get('/education-posts', [PostController::class, 'education']);
 Route::get('/business-posts', [PostController::class, 'business']);
 Route::get('/finance-posts', [PostController::class, 'finance']);
 Route::get('/world-posts', [PostController::class, 'world']);
-Route::get('/view/{postId}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
