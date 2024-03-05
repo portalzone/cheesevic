@@ -39,23 +39,22 @@ const form = useForm({
     image: null, // Change to null to represent no image initially
 });
 
-// const formPage = useForm({});
+const formPage = useForm({});
 
-// Assuming the user object is available from the page
-const { props: { user } } = usePage();
+// // Assuming the user object is available from the page
+// const { props: { user } } = usePage();
 
-// Function to check if the user has power equal to 3
-const filteredPosts = ref(props.posts.data); // Initially, all posts are rendered
+// // Function to check if the user has power equal to 3
+// const filteredPosts = ref(props.posts.data); // Initially, all posts are rendered
 
-const hasPower3 = () => {
-    return user && user.power === 3;
-};
+// const hasPower3 = () => {
+//     return user && user.power === 3;
+// };
 
-if (hasPower3()) {
-    // If user has power 3, filter the posts to show only their own posts
-    filteredPosts.value = props.posts.data.filter(post => post.user_id === user.id);
-}
-console.log(user);
+// if (hasPower3()) {
+//     // If user has power 3, filter the posts to show only their own posts
+//     filteredPosts.value = props.posts.data.filter(post => post.user_id === user.id);
+// }
 const onPageClick = (event) => {
     formPage.get(route('posts.index', { page: event }));
 }
@@ -80,22 +79,6 @@ const openModal = (op, name, body, category, post, image) => {
 const uploadImage = (event) => {
     form.image = event.target.files[0]
 }
-// const uploadImage = (event) => {
-//     const file = event.target.files[0];
-//     // Check if a file is selected
-//     if (file) {
-//         // Read the file as a data URL
-//         const reader = new FileReader();
-//         reader.onload = () => {
-//             // Set the form.image property with the data URL
-//             form.image = reader.result;
-//         };
-//         reader.readAsDataURL(file);
-//     } else {
-//         // If no file is selected, clear the form.image property
-//         form.image = null;
-//     }
-// }
 
 
 const closeModal = () => {
@@ -103,30 +86,6 @@ const closeModal = () => {
     form.reset();
     form.clearErrors();
 }
-
-// const save = () => {
-//   const formData = new FormData();
-//   formData.append('_token', csrfToken); // Add CSRF token
-//   formData.append('name', form.name);
-//   formData.append('body', form.body);
-//   formData.append('category_id', form.category_id);
-//   if (form.image) {
-//     formData.append('image', form.image);
-//   }
-
-//   // Dynamically set _method based on operation
-//   formData.append('_method', operation.value === 1 ? 'POST' : 'PUT');
-
-//   // Use the correct route for create and update
-//   const route = operation.value === 1 ? route('posts.store') : route('posts.update', id.value);
-//   const successtype = operation.value === 1 ? 'Post created' : 'Post updated';
-
-//   form.post(route, {
-//     preserveScroll: true,
-//     onSuccess: () => { ok(successtype); },
-//     onError: (errors) => { console.error('Error updating database:', errors); },
-//   });
-// }
 
 const save = () => {
     
@@ -246,7 +205,7 @@ const truncateText = (text, limit = 30) => {
                                         </th>                        </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="po, i in filteredPosts" :key="po.id" class="text-base bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <tr v-for="po, i in posts.data" :key="po.id" class="text-base bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ (i+1) }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ po.name }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">Published by: {{ po.user.name }}</td>

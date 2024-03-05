@@ -38,7 +38,7 @@ Route::middleware([
     Route::resource('posts', PostController::class);
     // Custom edit route for posts
     Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::put('/posts/{post}', [PostController::class, 'updatePost'])->name('posts.update');
+    Route::put('/post/{post}', [PostController::class, 'updatePost'])->name('post.update');
 });
 
 

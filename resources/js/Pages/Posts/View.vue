@@ -13,14 +13,9 @@ import { Link } from '@inertiajs/vue3';
 import { nextTick, ref} from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
-const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 import Swal from 'sweetalert2';
 
-const props = defineProps({ 
-  auth: {type:Object},
-  post: {type:Object}
-});
-
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 // difine modal settings 
 const nameInput = ref(null);
 const modal = ref(false);
@@ -28,6 +23,10 @@ const title = ref('');
 const operation = ref(1);
 const id = ref('');
 
+const props = defineProps({ 
+  auth: {type:Object},
+  post: {type:Object}
+});
 
 // Extract props
 const currentUser = props.auth.user;
@@ -90,15 +89,15 @@ const save = () => {
     if (operation.value == 1) {
         form.post(route('posts.store'), {
             preserveScroll: true,
-            // onSuccess: () => { ok('Post created');},
-            onSuccess: () => { ok('Post created'); window.location.reload(); },
+            onSuccess: () => { ok('Post created');},
+            // onSuccess: () => { ok('Post created'); window.location.reload(); },
             onError: (errors) => { console.error('Error updating post:', errors); },
         });
     } else {
-        form.post(route('posts.update', id.value), {
+        form.post(route('post.update', id.value), {
             preserveState: true,
-            // onSuccess: () => { ok('Post updated');},
-            onSuccess: () => { ok('Post updated'); window.location.reload(); },
+            onSuccess: () => { ok('Post updated');},
+            // onSuccess: () => { ok('Post updated'); window.location.reload(); },
             onError: (errors) => { console.error('Error updating post:', errors); },
         });
     }
