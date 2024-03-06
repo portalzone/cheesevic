@@ -10,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -312,7 +313,87 @@ public function trending()
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+ 
+     public function delete(Post $post)
+{
+    // Check if the user has the required permissions
+    if (auth()->user()->power == 9) {
+        // User has power of 9, see the posts deleted by the moderator
+        $user = auth()->user();
+
+        // Initialize query
+        $query = Post::select(
+            'posts.id',
+            'posts.name',
+            'posts.body',
+            'posts.user_id',
+            'posts.category_id',
+            'posts.image',
+            'categories.name as category'
+        )->join('categories', 'categories.id', '=', 'posts.category_id');
+
+        // If user's power is 3, filter posts by user_id
+        $query->where('posts.hidden', 1);
+
+        // Retrieve paginated posts with associated user
+        $posts = $query->with('user')->paginate(10);
+
+        $categories = Category::all();
+
+        return Inertia::render('Posts/Delete', [
+            'posts' => $posts,
+            'categories' => $categories
+        ]);
+    } else {
+        // User does not have sufficient permissions, return unauthorized access error
+        return response()->json(['error' => 'Unauthorized access'], 403);
+    }
+
+    // Redirect back to the previous page with input data
+    
+}
+
+// public function restore(Request $request, Post $post)
+// {
+//     // Check if the user has the required permissions
+//     if (auth()->user()->power == 9) {
+        
+//         $post->update(['hidden' => 0]);
+//         if($post)
+//         {
+//             dd($post);
+//         }
+//     } else {
+//         // User does not have sufficient permissions, return unauthorized access error
+//         return response()->json(['error' => 'Unauthorized access'], 403);
+//     }
+
+//     // Redirect back to the previous page with input data
+//     return redirect()->back()->withInput();
+// }
+
+public function restore(Request $request, Post $post)
+{
+    // Check if the user has the required permissions
+    if (auth()->user()->power == 9) {
+        // Update the 'hidden' attribute of the post
+        $post->update(['hidden' => 0]);
+        
+        // Check if the post was updated successfully
+        if($post->wasChanged()) {
+            // Return a response indicating success
+            return Redirect::back()->with(['success' => 'Post restored successfully']);
+        } else {
+            // Return a response indicating that the post was not updated
+            return Redirect::back()->withErrors(['error' => 'Failed to restore post']);
+        }
+    } else {
+        // User does not have sufficient permissions, return unauthorized access error
+        return response()->json(['error' => 'Unauthorized access'], 403);
+    }
+}
+
+public function destroy(Post $post)
 {
     // Check if the user has the required permissions
     if (auth()->user()->power == 9) {
@@ -329,6 +410,5 @@ public function trending()
     // Redirect back to the previous page with input data
     return redirect()->back()->withInput();
 }
-
 
 }

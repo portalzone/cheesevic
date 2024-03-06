@@ -4,6 +4,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PowerController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -36,17 +38,21 @@ Route::middleware([
     })->name('dashboard');
     Route::resource('categories', CategoryController::class);
     Route::resource('posts', PostController::class);
+    Route::resource('powers', PowerController::class);
     // Custom edit route for posts
-    // Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/post/{post}', [PostController::class, 'updatePost'])->name('post.update');
+    Route::get('/post', [PostController::class, 'delete'])->name('post.delete');
+    Route::put('/posts/{post}/restore', [PostController::class, 'restore'])->name('posts.restore');
+    // Route for fetching users
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+// Route for deleting a user
+Route::post('/users/{id}/delete', [UserController::class, 'destroy'])->name('users.delete');
+
+// Route for making a user a moderator
+Route::put('/users/{id}/make-moderator', [UserController::class, 'makeModerator'])->name('users.makeModerator');
 });
 
-//Route::fallback(function () {
-//    return Inertia::render('NotFound');
-//});
-// Route::get('/{any}', function () {
-//     return Inertia::render('NotFound'); // Render the Vue 3 component for the 404 page
-// })->where('any', '.*')->name('not-found');
 Route::get('/view/{postId}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/latest-posts', [PostController::class, 'latestPosts']);
 Route::get('/trending-posts', [PostController::class, 'trending']);

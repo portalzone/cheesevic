@@ -126,6 +126,16 @@ const logout = () => {
                                     Posts
                                 </NavLink>
                             </div>
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
+                                <NavLink :href="route('post.delete')" :active="route().current('post.delete')">
+                                    Deleted Post
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex"  v-if="$page.props.auth.user.power === 9">
+                                <NavLink :href="route('users.index')" :active="route().current('users.index')">
+                                    Users
+                                </NavLink>
+                            </div>
                             <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
                                 <NavLink :href="route('about')" :active="route().current('about')">
                                     About Us
@@ -284,11 +294,22 @@ const logout = () => {
                             Categories
                         </ResponsiveNavLink>
                     </div>
-                    <div class="pt-2 pb-3 space-y-1"  v-if="$page.props.auth.user.power === 9">
+                    <div class="pt-2 pb-3 space-y-1"  v-if="($page.props.auth.user.power === 9 || $page.props.auth.user.power === 3)">
                         <ResponsiveNavLink :href="route('posts.index')" :active="route().current('posts.index')">
                             Posts
                         </ResponsiveNavLink>
                     </div>
+                    <div class="pt-2 pb-3 space-y-1"  v-if="$page.props.auth.user.power === 9">
+                        <ResponsiveNavLink :href="route('post.delete')" :active="route().current('post.delete')">
+                            Deleted Posts
+                        </ResponsiveNavLink>
+                    </div>
+                    <div class="pt-2 pb-3 space-y-1"  v-if="$page.props.auth.user.power === 9">
+                        <ResponsiveNavLink :href="route('users.index')" :active="route().current('users.index')">
+                            Users
+                        </ResponsiveNavLink>
+                    </div>
+
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('about')" :active="route().current('about')">
                             About Us

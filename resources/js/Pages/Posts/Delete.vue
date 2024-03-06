@@ -2,6 +2,7 @@
 
 import AppLayout from '@/Layouts/AppLayout.vue';
 import DangerButton from '@/Components/DangerButton.vue';
+import RestoreButton from '@/Components/RestoreButton.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -13,7 +14,7 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import Modal from '@/Components/Modal.vue';
 import { usePage } from '@inertiajs/inertia-vue3';
 import { Head, useForm } from '@inertiajs/vue3';
-import { nextTick, ref, defineProps } from 'vue';
+import { nextTick, ref} from 'vue';
 import Swal from 'sweetalert2';
 import VueTailWindPagination from '@ocrv/vue-tailwind-pagination';
 
@@ -31,8 +32,6 @@ const props = defineProps({
 
 
 
-
-
 const form = useForm({
     _method: null,
     name: '',
@@ -43,22 +42,8 @@ const form = useForm({
 
 const formPage = useForm({});
 
-// // Assuming the user object is available from the page
-// const { props: { user } } = usePage();
-
-// // Function to check if the user has power equal to 3
-// const filteredPosts = ref(props.posts.data); // Initially, all posts are rendered
-
-// const hasPower3 = () => {
-//     return user && user.power === 3;
-// };
-
-// if (hasPower3()) {
-//     // If user has power 3, filter the posts to show only their own posts
-//     filteredPosts.value = props.posts.data.filter(post => post.user_id === user.id);
-// }
 const onPageClick = (event) => {
-    formPage.get(route('posts.index', { page: event }));
+    formPage.get(route('posts.delete', { page: event }));
 }
 
 const openModal = (op, name, body, category, post, image) => {
@@ -145,8 +130,29 @@ const deletePost = (id, name) => {
         }
     });
 }
+const restorePost = (id, name) => {
+    const alerta = Swal.mixin({
+        buttonsStyling: true
+    });
+    alerta.fire({
+        title: `Are you sure you want to restore ${name}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fa-solid fa-check"></i> Yes, restore',
+        cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.put(route('posts.restore', id), {
+            preserveState: true,
+            onSuccess: () => { ok('Post Restored'); },
+            onError: (errors) => { console.error('Error restoring post:', errors); },
+        });
+
+        }
+    });
+}
 // Define a function to truncate text to a certain number of words
-const truncateText = (text, limit = 30) => {
+const truncateText = (text, limit = 20) => {
   const words = text.split(' ');
   if (words.length > limit) {
     return words.slice(0, limit).join(' ') + '...'; // Append ellipsis if text is truncated
@@ -157,7 +163,7 @@ const truncateText = (text, limit = 30) => {
 
 
 <template>
-    <Head title="Posts" />
+    <Head title="Deleted Posts" />
 
     <AppLayout>
         <template #header>
@@ -203,6 +209,9 @@ const truncateText = (text, limit = 30) => {
                                             Edit
                                         </th>
                                         <th scope="col" class="px-6 py-3">
+                                            Restore
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
                                             Delete
                                         </th>                        </tr>
                     </thead>
@@ -219,6 +228,11 @@ const truncateText = (text, limit = 30) => {
                             @click="$event => openModal(2, po.name, po.body, po.category_id, po.id, po.image)">
                                 <i class="fa-solid fa-edit"></i> Edit
                             </WarningButton>
+                        </td>
+                        <td class="px-2 py-2">
+                            <RestoreButton @click="$event => restorePost(po.id,po.name)">
+                                <i class="fa-solid fa-search"></i>Restore
+                            </RestoreButton>
                         </td>
                         <td class="px-2 py-2">
                             <DangerButton @click="$event => deletePost(po.id,po.name)">
