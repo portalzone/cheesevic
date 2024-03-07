@@ -44,7 +44,10 @@
                                             Email
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Picture
+                                            Rank
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Admin
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             Action
@@ -58,20 +61,25 @@
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ (i+1) }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ user.name }}</td>
                         <td class="px-2 py-2 text-gray-900 dark:text-white">{{ user.email }}</td>
-                        <td class="w-16 h-16"><img :src="'/storage/' + user.profile_photo_url" alt="Post Image" v-if="user.profile_photo_url"></td>
+                        <td class="px-2 py-2 text-gray-900 dark:text-white">{{ user.power }}</td>
+                        <td class="px-2 py-2 text-gray-900 dark:text-white"><SelectInputUser id="power" :options="powers"
+                  v-model="user.power"
+                  :modelValue ="user.power"
+                class="mt-1 block w-3/4"></SelectInputUser>
+</td>
                         <td class="px-2 py-2"  v-if="user.power === 9">
                             <RestoreButton @click="makeModerator(user.id,user.name)">
                                 <i class="fa-solid fa-edit"></i> Make Moderator
                             </RestoreButton>
-                            <RestoreButton @click="makeModerator(user.id,user.name)">
+                            <RestoreButton @click="makeUser(user.id,user.name)">
                                 <i class="fa-solid fa-edit"></i> Make User
                             </RestoreButton>
                         </td>
                         <td class="px-2 py-2"  v-else-if="user.power === 3">
-                            <RestoreButton @click="makeModerator(user.id,user.name)">
+                            <RestoreButton @click="makeAdmin(user.id,user.name)">
                                 <i class="fa-solid fa-edit"></i> Make Admin
                             </RestoreButton>
-                            <RestoreButton @click="makeModerator(user.id,user.name)">
+                            <RestoreButton @click="makeUser(user.id,user.name)">
                                 <i class="fa-solid fa-edit"></i> Make User
                             </RestoreButton>
                         </td>
@@ -79,7 +87,7 @@
                             <RestoreButton @click="makeModerator(user.id,user.name)">
                                 <i class="fa-solid fa-edit"></i> Make Moderator
                             </RestoreButton>
-                            <RestoreButton @click="makeModerator(user.id,user.name)">
+                            <RestoreButton @click="makeAdmin(user.id,user.name)">
                                 <i class="fa-solid fa-edit"></i> Make Admin
                             </RestoreButton>
                         </td>
@@ -110,24 +118,31 @@
   import AppLayout from '@/Layouts/AppLayout.vue';
   import DangerButton from '@/Components/DangerButton.vue';
   import RestoreButton from '@/Components/RestoreButton.vue';
+  import SelectInputUser from '@/Components/SelectInputUser.vue';
   import { Head, useForm } from '@inertiajs/vue3';
   import Swal from 'sweetalert2';
 
   
   
+//   const props = defineProps({
+//     users: {
+//       type: Array,
+//       required: true
+//     }
+//   });
+
   const props = defineProps({
-    users: {
-      type: Array,
-      required: true
-    }
-  });
+    users: { type: Object },
+    powers: { type: Object },
+});
+
+console.log(props.users);
 
   const form = useForm({
     _method: null,
     name: '',
     email: '',
     power: 1,
-    image: null, // Change to null to represent no image initially
 });
 
   

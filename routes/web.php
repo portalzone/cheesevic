@@ -39,18 +39,19 @@ Route::middleware([
     Route::resource('categories', CategoryController::class);
     Route::resource('posts', PostController::class);
     Route::resource('powers', PowerController::class);
+    Route::resource('users', UserController::class);
     // Custom edit route for posts
     Route::put('/post/{post}', [PostController::class, 'updatePost'])->name('post.update');
     Route::get('/post', [PostController::class, 'delete'])->name('post.delete');
-    Route::put('/posts/{post}/restore', [PostController::class, 'restore'])->name('posts.restore');
-    // Route for fetching users
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
+//     Route::put('/posts/{post}/restore', [PostController::class, 'restore'])->name('posts.restore');
+//     // Route for fetching users
+// Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-// Route for deleting a user
-Route::post('/users/{id}/delete', [UserController::class, 'destroy'])->name('users.delete');
+// // Route for deleting a user
+// Route::post('/users/{id}/delete', [UserController::class, 'destroy'])->name('users.delete');
 
-// Route for making a user a moderator
-Route::put('/users/{id}/make-moderator', [UserController::class, 'makeModerator'])->name('users.makeModerator');
+// // Route for making a user a moderator
+// Route::put('/users/{id}/make-moderator', [UserController::class, 'makeModerator'])->name('users.makeModerator');
 });
 
 Route::get('/view/{postId}', [PostController::class, 'show'])->name('posts.show');
